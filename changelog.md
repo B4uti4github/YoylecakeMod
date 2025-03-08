@@ -1,9 +1,10 @@
 # 1.3.0
-- God earned a well-deserved break after those first nine days, especially given the current state of the world right now. It was time for Jesus to learn how to walk on water by Himself. After spending 4 hours on a round-trip visit to the local merchant for alarm clock batteries (only to return to realize God had fully intended to take an extended break in the first place), Jesus got to work.
+- God earned a well-deserved break after those first nine days, especially given the current state of the world right now. Even though Jesus learned that the hard way after spending 4 hours on a round-trip visit to the local merchant for alarm clock batteries, Jesus got to work.
     - Jesus first started by giving additional credit where credit was due and left unmentioned the first time around. <cl>(Hey there, TheJosiahTurner!)</c>
     - Jesus also discovered how to detect disabled objects in levels--a common nusiance from earlier showcases of this mod on YouTube, as well as a frequent and glaring issue on GitHub. <cl>(He hopes His changes this time around should improve matters for a bit.)</c>
     - Jesus then consulted more experienced Geode modders to fix that one annoying crash that kept happening in the level editor for Windows and Android. <cl>(He wishes to thank [hiimjasmine00](https://github.com/hiimjasmine00) for her counsel.)</c>
     - Jesus attempted to fix that other issue with sawblades causing more appearances than usual. <cl>(Unfortunately, He's unable to test His changes at 85% Acu, the level where the bug was first reported. Someone please teach Him about Start Position objects.)</c>
+    - Jesus decided to add an option to show himself when the player touches solid blocks. <cl>(He doesn't really recommend that you enable this, however.)</c>
 # 1.2.0
 - And on the ninth day:
     - God could not play the bell sound effect consistently, so He took matters into His own hands. <cl>(And now there's a volume setting for it as well.)</c>
