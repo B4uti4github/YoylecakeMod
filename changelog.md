@@ -3,7 +3,7 @@
     - Jesus first started by giving additional credit where credit was due and left unmentioned the first time around. <cl>(Hey there, TheJosiahTurner!)</c>
     - Jesus also discovered how to detect disabled objects in levels--a common nusiance from earlier showcases of this mod on YouTube, as well as a frequent and glaring issue on GitHub. <cl>(He hopes His changes this time around should improve matters for a bit.)</c>
     - Jesus then consulted more experienced Geode modders to fix that one annoying crash that kept happening in the level editor for Windows and Android. <cl>(He wishes to thank [hiimjasmine00](https://github.com/hiimjasmine00) for her counsel.)</c>
-    - Jesus attempted to fix that other issue with scaled objects causing more appearances than usual. <cl>(Unfortunately, He's unable to test His changes at 85% Acu, the level where the bug was first reported. Someone please teach Him about Start Position objects.)</c>
+    - Jesus attempted to fix that other issue with sawblades causing more appearances than usual. <cl>(Unfortunately, He's unable to test His changes at 85% Acu, the level where the bug was first reported. Someone please teach Him about Start Position objects.)</c>
 # 1.2.0
 - And on the ninth day:
     - God could not play the bell sound effect consistently, so He took matters into His own hands. <cl>(And now there's a volume setting for it as well.)</c>
