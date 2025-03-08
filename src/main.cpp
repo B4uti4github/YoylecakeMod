@@ -24,6 +24,9 @@ std::string customImage = "";
 
 float sensitivity = 2.0f;
 
+bool imageExists = false;
+bool soundExists = false;
+
 bool getBoolSetting(const std::string_view key) {
 	return Mod::get()->getSettingValue<bool>(key);
 }
@@ -70,7 +73,7 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
 
 		// A section of this code was copied from https://github.com/NicknameGG/robtop-jumpscare --iliashdz
 		if (!scene->getChildByIDRecursive("jesus"_spr)) {
-			if (isValidImage && customImage != "Please choose an image file.")
+			if (isValidImage && customImage != "Please choose an image file." && imageExists)
 				jesus_christ = CCSprite::create(customImage.c_str());
 			else jesus_christ = CCSprite::create("jesus.png"_spr);
 			jesus_christ->setID("jesus"_spr);
@@ -94,7 +97,7 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
 		auto system = FMODAudioEngine::get()->m_system;
 		FMOD::Channel* channel;
 		FMOD::Sound* sound;
-		if (customSound != "Please choose an audio file.") system->createSound(customSound.c_str(), FMOD_DEFAULT, nullptr, &sound);
+		if (customSound != "Please choose an audio file." && soundExists) system->createSound(customSound.c_str(), FMOD_DEFAULT, nullptr, &sound);
 		else system->createSound((Mod::get()->getResourcesDir() / "bell.ogg").string().c_str(), FMOD_DEFAULT, nullptr, &sound);
 		system->playSound(sound, nullptr, false, &channel);
 		channel->setVolume(volume / 100.0f);
@@ -159,7 +162,9 @@ $on_mod(Loaded) {
 	levelEditorLayer = getBoolSetting("levelEditorLayer");
 	volume = getIntSetting("volume");
 	customSound = getFileSettingAsString("customSound");
+	soundExists = std::filesystem::exists(customSound);
 	customImage = getFileSettingAsString("customImage");
+	imageExists = std::filesystem::exists(customImage);
 	sensitivity = getDoubleSetting("sensitivity");
 	listenForAllSettingChanges([](std::shared_ptr<SettingV3> setting){
 		skipSolidObjects = getBoolSetting("skipSolidObjects");
@@ -169,12 +174,14 @@ $on_mod(Loaded) {
 		levelEditorLayer = getBoolSetting("levelEditorLayer");
 		volume = getIntSetting("volume");
 		customSound = getFileSettingAsString("customSound");
-		if (!std::filesystem::exists(customSound)) {
+		soundExists = std::filesystem::exists(customSound);
+		if (!soundExists) {
 			FLAlertLayer::create("Hey there!", fmt::format("<cl>{}</c> does not exist!\n\n<cy>Please choose something else instead.</c>", customSound), "OK")->show();
 			customSound = "Please choose an audio file.";
 		}
 		customImage = getFileSettingAsString("customImage");
-		if (!std::filesystem::exists(customImage)) {
+		imageExists = std::filesystem::exists(customImage);
+		if (!imageExists) {
 			FLAlertLayer::create("Hey there!", fmt::format("<cl>{}</c> does not exist!\n\n<cy>Please choose something else instead.</c>", customImage), "OK")->show();
 			customImage = "Please choose an image file.";
 		}
