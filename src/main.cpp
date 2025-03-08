@@ -121,9 +121,12 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
 			if (obj->m_objectType == GameObjectType::Solid && skipSolidObjects) continue;
 			if (skipInvisibleObjects && (obj->m_isHide || obj->getOpacity() < 1)) continue;
 			const bool isSawblade = std::binary_search(sawblades.begin(), sawblades.end(), obj->m_objectID);
-			const float multiplier = isSawblade ? .5f : 2.f; // reduce sawblade hitboxes since the CCRect does not accurately represent the hitbox
+			const float multiplier = isSawblade ? .45f : 2.f; // reduce sawblade hitboxes since the CCRect does not accurately represent the hitbox
 			CCRect sensitivityRect = CCRect(obj->getObjectRect().origin - CCPoint(sensitivity, sensitivity), obj->getObjectRect().size + CCPoint(sensitivity * multiplier, sensitivity * multiplier));
-			if (player->getObjectRect().intersectsRect(sensitivityRect)) jesus();
+			if (player->getObjectRect().intersectsRect(sensitivityRect)) {
+				jesus();
+				geode::log::info("isSawblade: {}, multiplier: {}", isSawblade, multiplier);
+			}
 		}
 	}
 
