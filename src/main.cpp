@@ -169,7 +169,18 @@ $on_mod(Loaded) {
 		levelEditorLayer = getBoolSetting("levelEditorLayer");
 		volume = getIntSetting("volume");
 		customSound = getFileSettingAsString("customSound");
+		if (!std::filesystem::exists(customSound)) {
+			FLAlertLayer::create("Hey there!", fmt::format("<cl>{}</c> does not exist!\n\n<cy>Please choose something else instead.</c>", customSound), "OK")->show();
+			customSound = "Please choose an audio file.";
+		}
 		customImage = getFileSettingAsString("customImage");
+		if (!std::filesystem::exists(customImage)) {
+			FLAlertLayer::create("Hey there!", fmt::format("<cl>{}</c> does not exist!\n\n<cy>Please choose something else instead.</c>", customImage), "OK")->show();
+			customImage = "Please choose an image file.";
+		}
 		sensitivity = getDoubleSetting("sensitivity");
+	});
+	listenForSettingChanges("sensitivity", [](double sensitivity) {
+		if (!Mod::get()->setSavedValue<bool>("shownSensitivityWarning", true)) FLAlertLayer::create("Hey there!", "Sensitivity settings are not 100% accurate with sawblades, and probably won't ever be in the future.\n<cl>Thanks for understanding! :)</c>", "I understand")->show();
 	});
 }
