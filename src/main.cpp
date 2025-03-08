@@ -8,6 +8,16 @@ float time_counter = 0.0;
 float last_jesus_time = -1000.0;
 
 bool isValidImage = false;
+bool skipSolidObjects = false;
+bool skipInvisibleObjects = false;
+bool enabled = false;
+bool playLayer = false;
+bool levelEditorLayer = false;
+
+int64_t volume = 0;
+
+std::string customSound = "";
+std::string customImage = "";
 
 bool getBoolSetting(std::string_view key) {
 	return Mod::get()->getSettingValue<bool>(key);
@@ -22,7 +32,7 @@ int64_t getIntSetting(std::string_view key) {
 	return Mod::get()->getSettingValue<int64_t>(key);
 }
 bool modEnabled() {
-	return getBoolSetting("enabled");
+	return enabled;
 }
 bool isValidSprite(CCNode* obj) {
 	return obj && !obj->getUserObject("geode.texture-loader/fallback");
@@ -31,13 +41,13 @@ bool playLayerEnabled() {
 	GJBaseGameLayer* gjbgl = GJBaseGameLayer::get();
 	PlayLayer* pl = PlayLayer::get();
 	if (!gjbgl || !pl) return false;
-	return getBoolSetting("playLayer") && gjbgl == pl;
+	return playLayer && gjbgl == pl;
 }
 bool levelEditorLayerEnabled() {
 	GJBaseGameLayer* gjbgl = GJBaseGameLayer::get();
 	LevelEditorLayer* lel = LevelEditorLayer::get();
 	if (!gjbgl || !lel) return false;
-	return getBoolSetting("levelEditorLayer") && gjbgl == lel;
+	return levelEditorLayer && gjbgl == lel;
 }
 void resetJesus() {
 	time_counter = 0.0;
@@ -52,8 +62,8 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
 
 		// A section of this code was copied from https://github.com/NicknameGG/robtop-jumpscare --iliashdz
 		if (!scene->getChildByIDRecursive("jesus"_spr)) {
-			if (isValidImage && getFileSettingAsString("customImage") != "Please choose an image file.")
-				jesus_christ = CCSprite::create(getFileSettingAsString("customImage").c_str());
+			if (isValidImage && customImage != "Please choose an image file.")
+				jesus_christ = CCSprite::create(customImage.c_str());
 			else jesus_christ = CCSprite::create("jesus.png"_spr);
 			jesus_christ->setID("jesus"_spr);
 			CCSize winSize = CCDirector::get()->getWinSize();
@@ -76,10 +86,10 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
 		auto system = FMODAudioEngine::get()->m_system;
 		FMOD::Channel* channel;
 		FMOD::Sound* sound;
-		if (getFileSettingAsString("customSound") != "Please choose an audio file.") system->createSound(getFileSettingAsString("customSound").c_str(), FMOD_DEFAULT, nullptr, &sound);
+		if (customSound != "Please choose an audio file.") system->createSound(customSound.c_str(), FMOD_DEFAULT, nullptr, &sound);
 		else system->createSound((Mod::get()->getResourcesDir() / "bell.ogg").string().c_str(), FMOD_DEFAULT, nullptr, &sound);
 		system->playSound(sound, nullptr, false, &channel);
-		channel->setVolume(getIntSetting("volume") / 100.0f);
+		channel->setVolume(volume / 100.0f);
 
 		if (jesus_christ->getActionByTag(1)) jesus_christ->stopActionByTag(1);
 
@@ -100,13 +110,10 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
 		for (int i = 0; i < apparentlyNeededForTheForLoopToAvoidCrashing; i++) {
 			GameObject* obj = objs->at(i);
 			if (!obj || obj->m_isGroupDisabled) continue;
-			if (obj->m_objectType != GameObjectType::Hazard && obj->m_objectType != GameObjectType::AnimatedHazard) continue;
-			if (getBoolSetting("skipInvisibleObjects") && (obj->m_isHide || obj->getOpacity() == 0)) continue;
-
-			const auto sensitivityRect = CCRect(obj->getObjectRect().origin - CCPoint(sensitivity, sensitivity), obj->getObjectRect().size + CCPoint(sensitivity * 1.25, sensitivity * 1.25));
-			log::info("player->getObjectRect(): {}", player->getObjectRect());
-			log::info("obj->getObjectRect(): {}", obj->getObjectRect());
-			log::info("sensitivityRect: {}", sensitivityRect);
+			if (obj->m_objectType != GameObjectType::Hazard && obj->m_objectType != GameObjectType::AnimatedHazard && obj->m_objectType != GameObjectType::Solid) continue;
+			if (obj->m_objectType == GameObjectType::Solid && !skipSolidObjects) continue;
+			if (skipInvisibleObjects && (obj->m_isHide || obj->getOpacity() == 0)) continue;
+			CCRect sensitivityRect = CCRect(obj->getObjectRect().origin - CCPoint(sensitivity, sensitivity), obj->getObjectRect().size + CCPoint(sensitivity * 2, sensitivity * 2));
 			if (player->getObjectRect().intersectsRect(sensitivityRect)) jesus();
 		}
 	}
@@ -121,7 +128,7 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
 		if (!modEnabled() || (!playLayerEnabled() && !levelEditorLayerEnabled())) return true;
 
 		resetJesus();
-		CCSprite* sprite = CCSprite::create(getFileSettingAsString("customImage").c_str());
+		CCSprite* sprite = CCSprite::create(customImage.c_str());
 		isValidImage = sprite;
 		// code adapted from https://github.com/geode-sdk/DevTools/tree/main/src/pages/Attributes.cpp#L152 --raydeeux
 		// dank, your `CCTextureCache` doesnt work without a game restart so i had to yoink textureloader code --raydeeux
@@ -131,3 +138,25 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
 		return true;
 	}
 };
+
+$on_mod(Loaded) {
+	skipSolidObjects = getBoolSetting("skipSolidObjects");
+	skipInvisibleObjects = getBoolSetting("skipInvisibleObjects");
+	enabled = getBoolSetting("enabled");
+	playLayer = getBoolSetting("playLayer");
+	levelEditorLayer = getBoolSetting("levelEditorLayer");
+	volume = getIntSetting("volume");
+	customSound = getFileSettingAsString("customSound");
+	customImage = getFileSettingAsString("customImage");
+	
+	listenForAllSettingChanges([](std::shared_ptr<SettingV3> setting){
+		skipSolidObjects = getBoolSetting("skipSolidObjects");
+		skipInvisibleObjects = getBoolSetting("skipInvisibleObjects");
+		enabled = getBoolSetting("enabled");
+		playLayer = getBoolSetting("playLayer");
+		levelEditorLayer = getBoolSetting("levelEditorLayer");
+		volume = getIntSetting("volume");
+		customSound = getFileSettingAsString("customSound");
+		customImage = getFileSettingAsString("customImage");
+	});
+}
