@@ -175,13 +175,13 @@ $on_mod(Loaded) {
 		volume = getIntSetting("volume");
 		customSound = getFileSettingAsString("customSound");
 		soundExists = std::filesystem::exists(customSound);
-		if (!soundExists) {
+		if (!soundExists && customSound != "Please choose an audio file.") {
 			FLAlertLayer::create("Hey there!", fmt::format("<cl>{}</c> does not exist!\n\n<cy>Please choose something else instead.</c>", customSound), "OK")->show();
 			customSound = "Please choose an audio file.";
 		}
 		customImage = getFileSettingAsString("customImage");
 		imageExists = std::filesystem::exists(customImage);
-		if (!imageExists) {
+		if (!imageExists && customImage != "Please choose an image file.") {
 			FLAlertLayer::create("Hey there!", fmt::format("<cl>{}</c> does not exist!\n\n<cy>Please choose something else instead.</c>", customImage), "OK")->show();
 			customImage = "Please choose an image file.";
 		}
