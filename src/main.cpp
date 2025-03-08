@@ -19,17 +19,22 @@ int64_t volume = 0;
 std::string customSound = "";
 std::string customImage = "";
 
-bool getBoolSetting(std::string_view key) {
+float sensitivity = 2.0f;
+
+bool getBoolSetting(const std::string_view key) {
 	return Mod::get()->getSettingValue<bool>(key);
 }
-std::filesystem::path getFileSetting(std::string_view key) {
+std::filesystem::path getFileSetting(const std::string_view key) {
 	return Mod::get()->getSettingValue<std::filesystem::path>(key);
 }
-std::string getFileSettingAsString(std::string_view key) {
+std::string getFileSettingAsString(const std::string_view key) {
 	return getFileSetting(key).string();
 }
-int64_t getIntSetting(std::string_view key) {
+int64_t getIntSetting(const std::string_view key) {
 	return Mod::get()->getSettingValue<int64_t>(key);
+}
+double getDoubleSetting(const std::string_view key) {
+	return Mod::get()->getSettingValue<double>(key);
 }
 bool modEnabled() {
 	return enabled;
@@ -106,7 +111,6 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
 	void collisionCheckObjects(PlayerObject* player, gd::vector<GameObject*>* objs, int apparentlyNeededForTheForLoopToAvoidCrashing, float v1) {
 		GJBaseGameLayer::collisionCheckObjects(player, objs, apparentlyNeededForTheForLoopToAvoidCrashing, v1);
 		if (!modEnabled() || (!playLayerEnabled() && !levelEditorLayerEnabled())) return;
-		float sensitivity = Mod::get()->getSettingValue<double>("sensitivity");
 		for (int i = 0; i < apparentlyNeededForTheForLoopToAvoidCrashing; i++) {
 			GameObject* obj = objs->at(i);
 			if (!obj || obj->m_isGroupDisabled) continue;
@@ -148,7 +152,7 @@ $on_mod(Loaded) {
 	volume = getIntSetting("volume");
 	customSound = getFileSettingAsString("customSound");
 	customImage = getFileSettingAsString("customImage");
-	
+	sensitivity = getDoubleSetting("sensitivity");
 	listenForAllSettingChanges([](std::shared_ptr<SettingV3> setting){
 		skipSolidObjects = getBoolSetting("skipSolidObjects");
 		skipInvisibleObjects = getBoolSetting("skipInvisibleObjects");
@@ -158,5 +162,6 @@ $on_mod(Loaded) {
 		volume = getIntSetting("volume");
 		customSound = getFileSettingAsString("customSound");
 		customImage = getFileSettingAsString("customImage");
+		sensitivity = getDoubleSetting("sensitivity");
 	});
 }
