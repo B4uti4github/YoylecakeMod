@@ -115,7 +115,7 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
 			GameObject* obj = objs->at(i);
 			if (!obj || obj->m_isGroupDisabled) continue;
 			if (obj->m_objectType != GameObjectType::Hazard && obj->m_objectType != GameObjectType::AnimatedHazard && obj->m_objectType != GameObjectType::Solid) continue;
-			if (obj->m_objectType == GameObjectType::Solid && !skipSolidObjects) continue;
+			if (obj->m_objectType == GameObjectType::Solid && skipSolidObjects) continue;
 			if (skipInvisibleObjects && (obj->m_isHide || obj->getOpacity() < 1)) continue;
 			CCRect sensitivityRect = CCRect(obj->getObjectRect().origin - CCPoint(sensitivity, sensitivity), obj->getObjectRect().size + CCPoint(sensitivity * 2, sensitivity * 2));
 			if (player->getObjectRect().intersectsRect(sensitivityRect)) jesus();
