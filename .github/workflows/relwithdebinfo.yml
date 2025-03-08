@@ -12,17 +12,17 @@ jobs:
       fail-fast: false
       matrix:
         config:
-        - name: Windows
+        - name: Windows (RelWithDebInfo)
           os: windows-latest
 
-        - name: macOS
+        - name: macOS (RelWithDebInfo)
           os: macos-latest
 
-        - name: Android32
+        - name: Android32 (RelWithDebInfo)
           os: ubuntu-latest
           target: Android32
 
-        - name: Android64
+        - name: Android64 (RelWithDebInfo)
           os: ubuntu-latest
           target: Android64
 
@@ -32,13 +32,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build the mod
+      - name: Build the mod (RelWithDebInfo)
         uses: geode-sdk/build-geode-mod@main
         with:
           build-config: RelWithDebInfo # [vscode] comment this out (and the line below!) to Release mode
           export-pdb: true # [vscode] comment this out (and the line above!) to Release mode
-          # bindings: "iliasHDZ/bindings" # [vscode] comment this out to swap to "geode-sdk/bindings"
-          # bindings-ref: "bindings" # comment this out to use default branch
+          bindings: "RayDeeUx/bindings" # [vscode] comment this out to swap to "geode-sdk/bindings"
+          bindings-ref: "4.0.1" # comment this out to use default branch
           # sdk: nightly # [vscode] comment this out to use stable Geode SDK version
           combine: true
           target: ${{ matrix.config.target }}
@@ -54,5 +54,5 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: Build Output
+          name: Build Output (RelWithDebInfo)
           path: ${{ steps.build.outputs.build-output }}

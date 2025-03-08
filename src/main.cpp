@@ -28,20 +28,16 @@ bool isValidSprite(CCNode* obj) {
 	return obj && !obj->getUserObject("geode.texture-loader/fallback");
 }
 bool playLayerEnabled() {
-	#ifdef GEODE_IS_WINDOWS
-	return true; // this defaults to returning true because CLion sucks at understanding the nuances of Geode settings; defaulting to false would ultimately have the same effect --raydeeux
-	#endif
-	auto gjbgl = GJBaseGameLayer::get();
-	if (!gjbgl) return false;
-	return getBoolSetting("playLayer") && typeinfo_cast<PlayLayer*>(gjbgl);
+	GJBaseGameLayer* gjbgl = GJBaseGameLayer::get();
+	PlayLayer* pl = PlayLayer::get();
+	if (!gjbgl || !pl) return false;
+	return getBoolSetting("playLayer") && gjbgl == pl;
 }
 bool levelEditorLayerEnabled() {
-	#ifdef GEODE_IS_WINDOWS
-	return false;
-	#endif
-	auto gjbgl = GJBaseGameLayer::get();
-	if (!gjbgl) return false;
-	return getBoolSetting("levelEditorLayer") && typeinfo_cast<LevelEditorLayer*>(gjbgl);
+	GJBaseGameLayer* gjbgl = GJBaseGameLayer::get();
+	LevelEditorLayer* lel = LevelEditorLayer::get();
+	if (!gjbgl || !lel) return false;
+	return getBoolSetting("levelEditorLayer") && gjbgl == lel;
 }
 void resetJesus() {
 	time_counter = 0.0;
@@ -97,21 +93,20 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
 		time_counter += dt;
 	}
 
-	void collisionCheckObjects(PlayerObject* player, gd::vector<GameObject*>* objs, int v0, float v1) {
-		if (modEnabled() && (playLayerEnabled() || levelEditorLayerEnabled())) {
-			float sensitivity = Mod::get()->getSettingValue<double>("sensitivity");
-			for (auto obj : *objs) {
-				if (obj == nullptr) continue;
-				if (obj->m_objectType != GameObjectType::Hazard && obj->m_objectType != GameObjectType::AnimatedHazard) continue;
-				if (getBoolSetting("skipInvisibleObjects") && obj->m_isHide || obj->getOpacity() == 0) continue;
+	void collisionCheckObjects(PlayerObject* player, gd::vector<GameObject*>* objs, int apparentlyNeededForTheForLoopToAvoidCrashing, float v1) {
+		GJBaseGameLayer::collisionCheckObjects(player, objs, apparentlyNeededForTheForLoopToAvoidCrashing, v1);
+		if (!modEnabled() || (!playLayerEnabled() && !levelEditorLayerEnabled())) return;
+		float sensitivity = Mod::get()->getSettingValue<double>("sensitivity");
+		for (int i = 0; i < apparentlyNeededForTheForLoopToAvoidCrashing; i++) {
+			GameObject* obj = objs.at(i);
+			if (!obj || obj->m_isGroupDisabled) continue;
+			if (obj->m_objectType != GameObjectType::Hazard && obj->m_objectType != GameObjectType::AnimatedHazard) continue;
+			if (getBoolSetting("skipInvisibleObjects") && (obj->m_isHide || obj->getOpacity() == 0)) continue;
 
-				const auto sensitivityRect = CCRect(obj->getObjectRect().origin - CCPoint(sensitivity, sensitivity), obj->getObjectRect().size + CCPoint(sensitivity * 2, sensitivity * 2));
+			const auto sensitivityRect = CCRect(obj->getObjectRect().origin - CCPoint(sensitivity, sensitivity), obj->getObjectRect().size + CCPoint(sensitivity + 2, sensitivity + 2));
 
-				if (player->getObjectRect().intersectsRect(sensitivityRect)) jesus();
-			}
+			if (player->getObjectRect().intersectsRect(sensitivityRect)) jesus();
 		}
-
-		GJBaseGameLayer::collisionCheckObjects(player, objs, v0, v1);
 	}
 
 	void resetLevelVariables() {

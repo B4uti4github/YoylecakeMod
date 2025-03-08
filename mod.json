@@ -1,21 +1,21 @@
 {
-	"geode": "3.4.0",
+	"geode": "4.0.1",
 	"gd": {
-		"win": "2.206",
-		"mac": "2.206",
-		"android": "2.206"
+		"win": "2.2074",
+		"mac": "2.2074",
+		"android": "2.2074"
 	},
 	"resources": {
 		"sprites": ["resources/*.png"],
 		"files": ["resources/*.ogg"]
 	},
 	"tags": ["joke"],
-	"version": "v1.2.0",
+	"version": "v1.3.0",
 	"id": "iliashdz.jesus",
 	"name": "Jesus",
-	"developer": "IliasHDZ",
+	"developers": ["IliasHDZ", "RayDeeUx"],
 	"description": "Jesus Christ flashes before your eyes as you nearly escape death.",
-	"repository": "https://github.com/iliasHDZ/Jesus",
+	"repository": "https://github.com/RayDeeUx/BetterJesus",
 	"settings": {
 		"enabled": {
 			"name": "Enabled",
@@ -27,8 +27,7 @@
 			"name": "Playing Levels",
 			"description": "Show Jesus when playing levels.",
 			"type": "bool",
-			"default": true,
-			"platforms": ["mac", "android32", "android64"]
+			"default": true
 		},
 		"levelEditorLayer": {
 			"name": "Level Editor",
@@ -38,8 +37,7 @@
 				"win": false,
 				"mac": true,
 				"android": false
-			},
-			"platforms": ["mac", "android32", "android64"]
+			}
 		},
 		"volume": {
 			"name": "Volume (%)",
@@ -81,7 +79,7 @@
 		},
 		"customImage": {
 			"name": "Custom Image",
-			"description": "If you would like a custom image to show instead of Jesus, choose one here.\n\n<cy>If you just want to see Jesus (by default)there's no need to change this setting.</c>",
+			"description": "If you would like a custom image to show instead of Jesus, choose one here.\n\n<cy>If you just want to see Jesus (by default), there's no need to change this setting.</c>",
 			"type": "path",
 			"default": "Please choose an image file.",
 			"control": {
@@ -97,7 +95,7 @@
 		},
 		"customSound": {
 			"name": "Custom Sound",
-			"description": "If you would like a custom audio file to play instead of a bell, choose one here.\n\n<cy>If you just want to hear the bell (by default)there's no need to change this setting.</c>",
+			"description": "If you would like a custom audio file to play instead of a bell, choose one here.\n\n<cy>If you just want to hear the bell (by default), there's no need to change this setting.</c>",
 			"type": "path",
 			"default": "Please choose an audio file.",
 			"control": {
