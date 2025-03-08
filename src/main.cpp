@@ -1,4 +1,7 @@
 #include <Geode/modify/GJBaseGameLayer.hpp>
+#include <algorithm>
+
+static const std::set<int> sawblades = {88, 89, 98, 183, 184, 185, 186, 187, 188, 397, 398, 399, 678, 679, 680, 740, 741, 742, 1619, 1620, 1701, 1702, 1703, 1705, 1706, 1707, 1708, 1709, 1710, 1734, 1735, 1736};
 
 using namespace geode::prelude;
 
@@ -117,7 +120,9 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
 			if (obj->m_objectType != GameObjectType::Hazard && obj->m_objectType != GameObjectType::AnimatedHazard && obj->m_objectType != GameObjectType::Solid) continue;
 			if (obj->m_objectType == GameObjectType::Solid && skipSolidObjects) continue;
 			if (skipInvisibleObjects && (obj->m_isHide || obj->getOpacity() < 1)) continue;
-			CCRect sensitivityRect = CCRect(obj->getObjectRect().origin - CCPoint(sensitivity, sensitivity), obj->getObjectRect().size + CCPoint(sensitivity * 2, sensitivity * 2));
+			const bool isSawblade = std::binary_search(sawblades.begin(), sawblades.end(), obj->m_objectID);
+			const float multiplier = isSawblade ? .95f : 2.f; // reduce sawblade hitboxes since the CCRect does not accurately represent the hitbox
+			CCRect sensitivityRect = CCRect(obj->getObjectRect().origin - CCPoint(sensitivity, sensitivity), obj->getObjectRect().size + CCPoint(sensitivity * multiplier, sensitivity * multiplier));
 			if (player->getObjectRect().intersectsRect(sensitivityRect)) jesus();
 		}
 	}
