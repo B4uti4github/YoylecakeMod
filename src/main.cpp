@@ -103,8 +103,10 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
 			if (obj->m_objectType != GameObjectType::Hazard && obj->m_objectType != GameObjectType::AnimatedHazard) continue;
 			if (getBoolSetting("skipInvisibleObjects") && (obj->m_isHide || obj->getOpacity() == 0)) continue;
 
-			const auto sensitivityRect = CCRect(obj->getObjectRect().origin - CCPoint(sensitivity, sensitivity), obj->getObjectRect().size + CCPoint(sensitivity + 2, sensitivity + 2));
-
+			const auto sensitivityRect = CCRect(obj->getObjectRect().origin - CCPoint(sensitivity, sensitivity), obj->getObjectRect().size + CCPoint(sensitivity * 1.25, sensitivity * 1.25));
+			log::info("player->getObjectRect(): {}", player->getObjectRect());
+			log::info("obj->getObjectRect(): {}", obj->getObjectRect());
+			log::info("sensitivityRect: {}", sensitivityRect);
 			if (player->getObjectRect().intersectsRect(sensitivityRect)) jesus();
 		}
 	}
