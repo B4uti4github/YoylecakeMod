@@ -98,7 +98,7 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
 		if (!modEnabled() || (!playLayerEnabled() && !levelEditorLayerEnabled())) return;
 		float sensitivity = Mod::get()->getSettingValue<double>("sensitivity");
 		for (int i = 0; i < apparentlyNeededForTheForLoopToAvoidCrashing; i++) {
-			GameObject* obj = objs.at(i);
+			GameObject* obj = objs->at(i);
 			if (!obj || obj->m_isGroupDisabled) continue;
 			if (obj->m_objectType != GameObjectType::Hazard && obj->m_objectType != GameObjectType::AnimatedHazard) continue;
 			if (getBoolSetting("skipInvisibleObjects") && (obj->m_isHide || obj->getOpacity() == 0)) continue;
