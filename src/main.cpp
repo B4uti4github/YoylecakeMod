@@ -73,6 +73,8 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
 
 		// A section of this code was copied from https://github.com/NicknameGG/robtop-jumpscare --iliashdz
 		log::info("customImage: {}", customImage);
+		log::info("isValidImage: {}", isValidImage);
+		log::info("imageExists: {}", imageExists);
 		if (!scene->getChildByIDRecursive("jesus"_spr)) {
 			if (isValidImage && customImage != "Please choose an image file." && imageExists) {
 				jesus_christ = CCSprite::create(customImage.c_str());
