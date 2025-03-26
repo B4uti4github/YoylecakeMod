@@ -1,3 +1,6 @@
+# 1.3.1
+- Jesus was notified by one of his disciples that no one could change His appearance in-game.
+    - It had turned out that there was some weird behavior going on without His proper knowlegde, so He corrected that. <cy>He would like to apologize to anyone who had trouble changing His appearance in-game.</c> 
 # 1.3.0
 - God earned a well-deserved break after those first nine days, especially given the current state of the world right now. Even though Jesus learned of that news the hard way after spending four hours on a round-trip visit to the local merchant for alarm clock batteries, Jesus got to work.
     - Jesus first started by giving additional credit where credit was due and left unmentioned the first time around. <cl>(Hey there, TheJosiahTurner!)</c>
