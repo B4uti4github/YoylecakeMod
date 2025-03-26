@@ -86,7 +86,7 @@
 		"customImage": {
 			"name": "Custom Image",
 			"description": "If you would like a custom image to show instead of Jesus, choose one here.\n\n<cy>If you just want to see Jesus (by default), there's no need to change this setting.</c>",
-			"type": "path",
+			"type": "file",
 			"default": "Please choose an image file.",
 			"control": {
 				"filters": [
@@ -102,7 +102,7 @@
 		"customSound": {
 			"name": "Custom Sound",
 			"description": "If you would like a custom audio file to play instead of a bell, choose one here.\n\n<cy>If you just want to hear the bell (by default), there's no need to change this setting.</c>",
-			"type": "path",
+			"type": "file",
 			"default": "Please choose an audio file.",
 			"control": {
 				"filters": [

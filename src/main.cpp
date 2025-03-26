@@ -72,6 +72,7 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
 		auto scene = CCDirector::get()->getRunningScene();
 
 		// A section of this code was copied from https://github.com/NicknameGG/robtop-jumpscare --iliashdz
+		log::info("customImage: {}", customImage);
 		if (!scene->getChildByIDRecursive("jesus"_spr)) {
 			if (isValidImage && customImage != "Please choose an image file." && imageExists) {
 				jesus_christ = CCSprite::create(customImage.c_str());
