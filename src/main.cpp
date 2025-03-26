@@ -142,7 +142,9 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
   
 	bool init() {
 		if (!GJBaseGameLayer::init()) return false;
+		log::info("gjbgl init success");
 		if (!modEnabled() || (!playLayerEnabled() && !levelEditorLayerEnabled())) return true;
+		log::info("testing for sprite validity");
 
 		resetJesus();
 		CCSprite* sprite = CCSprite::create(customImage.c_str());
