@@ -147,6 +147,7 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
 		resetJesus();
 		CCSprite* sprite = CCSprite::create(customImage.c_str());
 		isValidImage = sprite;
+		log::info("isValidImage: {}", isValidImage);
 		// code adapted from https://github.com/geode-sdk/DevTools/tree/main/src/pages/Attributes.cpp#L152 --raydeeux
 		if (isValidImage) isValidImage = isValidSprite(sprite);
 		log::info("isValidImage: {}", isValidImage);
