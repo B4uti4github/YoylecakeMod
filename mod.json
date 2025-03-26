@@ -10,7 +10,7 @@
 		"files": ["resources/*.ogg"]
 	},
 	"tags": ["joke"],
-	"version": "v1.3.0",
+	"version": "v1.3.1",
 	"id": "iliashdz.jesus",
 	"name": "Jesus",
 	"developers": ["IliasHDZ", "RayDeeUx"],
