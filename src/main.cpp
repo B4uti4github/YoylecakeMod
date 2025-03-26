@@ -73,8 +73,10 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
 
 		// A section of this code was copied from https://github.com/NicknameGG/robtop-jumpscare --iliashdz
 		if (!scene->getChildByIDRecursive("jesus"_spr)) {
-			if (isValidImage && customImage != "Please choose an image file." && imageExists)
+			if (isValidImage && customImage != "Please choose an image file." && imageExists) {
 				jesus_christ = CCSprite::create(customImage.c_str());
+				log::info("created jesus from {}", customImage);
+			}
 			else jesus_christ = CCSprite::create("jesus.png"_spr);
 			jesus_christ->setID("jesus"_spr);
 			CCSize winSize = CCDirector::get()->getWinSize();
@@ -143,7 +145,6 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
 		CCSprite* sprite = CCSprite::create(customImage.c_str());
 		isValidImage = sprite;
 		// code adapted from https://github.com/geode-sdk/DevTools/tree/main/src/pages/Attributes.cpp#L152 --raydeeux
-		// dank, your `CCTextureCache` doesnt work without a game restart so i had to yoink textureloader code --raydeeux
 		if (isValidImage) isValidImage = isValidSprite(sprite);
 		log::info("isValidImage: {}", isValidImage);
 
@@ -163,6 +164,7 @@ $on_mod(Loaded) {
 	customImage = getFileSettingAsString("customImage");
 	imageExists = std::filesystem::exists(customImage);
 	sensitivity = getDoubleSetting("sensitivity");
+
 	listenForAllSettingChanges([](std::shared_ptr<SettingV3> setting){
 		skipSolidObjects = getBoolSetting("skipSolidObjects");
 		skipInvisibleObjects = getBoolSetting("skipInvisibleObjects");
@@ -184,6 +186,7 @@ $on_mod(Loaded) {
 		}
 		sensitivity = getDoubleSetting("sensitivity");
 	});
+
 	listenForSettingChanges("sensitivity", [](double sensitivity) {
 		if (!Mod::get()->setSavedValue<bool>("shownSensitivityWarning", true)) FLAlertLayer::create("Hey there!", "Sensitivity settings are not 100% accurate with sawblades, and probably won't ever be in the future.\n<cl>Thanks for understanding! :)</c>", "I understand")->show();
 	});
