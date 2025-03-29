@@ -147,7 +147,7 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
 		// code adapted from https://github.com/geode-sdk/DevTools/tree/main/src/pages/Attributes.cpp#L152 --raydeeux
 		if (isValidImage) isValidImage = isValidSprite(sprite);
 		log::info("isValidImage: {}", isValidImage);
-		sprite->release();
+		if (sprite) sprite->release();
 
 		return true;
 	}

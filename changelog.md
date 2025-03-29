@@ -1,3 +1,5 @@
+# 1.3.2
+- Some so-called "saucey \*\*\*\*\*\*" rubbed Jesus the wrong way.
 # 1.3.1
 - Jesus was notified by one of his disciples that no one could change His appearance in-game.
     - It had turned out that there was some weird behavior going on without His proper knowlegde, so He corrected that. <cy>He would like to apologize to anyone who had trouble changing His appearance in-game.</c>
