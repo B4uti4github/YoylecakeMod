@@ -2,20 +2,18 @@
 	"geode": "4.0.1",
 	"gd": {
 		"win": "2.2074",
-		"mac": "2.2074",
-		"android": "2.2074"
 	},
 	"resources": {
 		"sprites": ["resources/*.png"],
 		"files": ["resources/*.ogg"]
 	},
 	"tags": ["joke"],
-	"version": "v1.3.2",
-	"id": "iliashdz.jesus",
-	"name": "Jesus",
-	"developers": ["IliasHDZ", "RayDeeUx"],
-	"description": "Jesus Christ flashes before your eyes as you nearly escape death.",
-	"repository": "https://github.com/RayDeeUx/BetterJesus",
+	"version": "v1.0.4",
+	"id": "B4uti4GD.yoylecake",
+	"name": "Yoylecake Mod",
+	"developers": ["B4uti4GD"],
+	"description": "the yoylecake appears for epic and closely deaths moments.",
+	"repository": "https://github.com/B4uti4github/YoylecakeMod",
 	"settings": {
 		"enabled": {
 			"name": "Enabled",
@@ -34,9 +32,7 @@
 			"description": "Show Jesus when playtesting levels in the level editor.\n\n<cy>If this feature is causing crashes for you, please</c> <cr>DISABLE IT</c><cy>.</c>",
 			"type": "bool",
 			"default": {
-				"win": false,
-				"mac": true,
-				"android": false
+				"win": false
 			}
 		},
 		"volume": {
