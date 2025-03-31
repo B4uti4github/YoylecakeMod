@@ -1,6 +1,8 @@
-# Jesus Mod
+# Yoylecake Mod
 
-See the Lord Jesus Christ flash before your eyes as you get close to a spike.
+See the Yoylecake flash before your eyes as you get close to a spike.
+
+a fork from jesus mod.
 
 Original mod idea by [TheJosiahTurner](https://twitter.com/TheJosTurner) based on [this hit tweet](https://vxtwitter.com/TheJosTurner/status/1832915369406705753).
 
