@@ -1,3 +1,9 @@
+#1.0.5
+- modified the about file and readme file
+
+#1.0.4
+- idk
+
 # 1.0.3
 - modified the changelog
 
